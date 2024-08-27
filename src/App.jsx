@@ -2,13 +2,13 @@
 import "./App.css";
 import ContactList from "./components/ContactList//ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
-import ContactForm from "./components/Form/Form";
+import FeedbackForm from "./components/Form/Form";
 
 function App() {
   return (
     <>
       <h1>Phonebook</h1>
-      <ContactForm />
+      <FeedbackForm />
       <SearchBox />
       <ContactList />
     </>
