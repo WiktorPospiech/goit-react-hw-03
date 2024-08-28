@@ -1,4 +1,5 @@
 import styles from "./contact.module.css";
+import MatchingContact from "../SearchBox/SearchBox";
 
 const allContacts = [
   { id: "id-1", name: "Rosie Simpson", number: "459-12-56" },
