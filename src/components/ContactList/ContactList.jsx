@@ -1,9 +1,11 @@
 import ContactItem from "../Contact/Contact";
 
-export default function ContactList() {
+export default function ContactList({ contacts }) {
   return (
     <>
-      <ContactItem />
+      {contacts.map((contact) => (
+        <ContactItem key={contact.id} contact={contact} />
+      ))}
     </>
   );
 }

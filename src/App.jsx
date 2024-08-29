@@ -32,7 +32,7 @@ function App() {
         value={inputValue}
         onUpdate={handleChange}
       />
-      <ContactList />
+      <ContactList contacts={searchingContact} />
     </>
   );
 }
