@@ -1,48 +1,50 @@
 import * as Yup from "yup";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useId } from "react";
+import { nanoid } from "nanoid";
 
 const FeedbackSchema = Yup.object().shape({
-  username: Yup.string()
+  name: Yup.string()
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),
-  email: Yup.string().email("Must be a valid email!").required("Required"),
+  number: Yup.number()
+    // .min(2, "Too Short!")
+    // .max(50, "Too Long!")
+    .typeError("you must specify a number")
+    .required("Required"),
 });
 
 const initialValues = {
-  username: "",
-  email: "",
+  id: "id-" + nanoid(),
+  name: "",
+  number: "",
 };
 
-export default function FeedbackForm() {
+export default function FeedbackForm({ onSubmit }) {
   const nameFieldId = useId();
-  const emailFieldId = useId();
+  const userFieldId = useId();
 
-  const handleSubmit = (values, actions) => {
-    console.log(values);
-    actions.resetForm();
-  };
+  // const handleSubmit = (values, actions) => {
+  //   console.log(values);
+  //   actions.resetForm();
+  // };
 
   return (
     <Formik
       initialValues={initialValues}
-      onSubmit={handleSubmit}
+      onSubmit={onSubmit}
       validationSchema={FeedbackSchema}
     >
       <Form>
-        <label htmlFor={nameFieldId}>Username</label>
-        <Field type="text" name="username" />
-        <ErrorMessage name="username" as="span" />
-        <label htmlFor={emailFieldId}>Email</label>
-        <Field type="email" name="email" />
-        <button type="submit">Submit</button>
-        <ErrorMessage name="email" as="span" />
+        <label htmlFor={nameFieldId}>Name</label>
+        <Field type="text" name="name" id={nameFieldId} />
+        <ErrorMessage name="name" as="span" />
+        <label htmlFor={userFieldId}>Number</label>
+        <Field type="tel" name="number" id={userFieldId} />
+        <button type="submit">Add Contact</button>
+        <ErrorMessage name="number" as="span" />
       </Form>
     </Formik>
   );
 }
-
-// export default function ContactForm() {
-//   return <>{FeedbackForm}</>;
-// }
