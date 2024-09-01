@@ -1,21 +1,25 @@
 import styles from "./contact.module.css";
+import PropTypes from "prop-types";
 
-const unvisible = document.getElementById("toHide");
-console.log(unvisible);
-const changeClassName = () => {
-  unvisible.classList.add("isHidden");
-};
+// const unvisible = document.getElementById("toHide");
+// console.log(unvisible);
+// const changeClassName = () => {
+//   unvisible.classList.add("isHidden");
+// };
 
-export default function ContactItem({ contact }) {
+export default function ContactItem({ contact, deleteContacts }) {
   return (
     <>
-      <div id="toHide" className={styles.wrapper} key={contact.id}>
-        <ul className={styles.list}>
-          <li>{contact.name}</li>
-          <li>{contact.number}</li>
-        </ul>
-        <button onClick={changeClassName}>Delete</button>
-      </div>
+      <ul key={contact.id} className={styles.list}>
+        <li>{contact.name}</li>
+        <li>{contact.number}</li>
+      </ul>
+      <button onClick={() => deleteContacts(contact.id)}>Delete</button>
     </>
   );
 }
+
+ContactItem.propTypes = {
+  contacts: PropTypes.object.isRequired,
+  deleteContacts: PropTypes.func.isRequired,
+};
