@@ -3,15 +3,17 @@ import "./App.css";
 import ContactList from "./components/ContactList//ContactList";
 import SearchBox from "./components/SearchBox/SearchBox";
 import FeedbackForm from "./components/Form/Form";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import allContacts from "./components/Contact/allContacts.json";
 
 const addedContact = [];
 const EveryContact = [...allContacts];
 const searchingContact = Object.assign(addedContact, EveryContact);
+// const savedContact = JSON.parse(window.localStorage.getItem("saved-contact"));
 
 function App() {
   const [inputValue, setInputValue] = useState(searchingContact);
+  console.log(inputValue);
 
   //funkcja, która zostanie przekazana do Formularza//
   const handleSubmit = (values, actions) => {
@@ -73,6 +75,9 @@ function App() {
   //     actions.resetForm();
   //   };
   // };
+  useEffect(() => {
+    window.localStorage.setItem("saved-contact", JSON.stringify(inputValue));
+  }, [inputValue]);
 
   return (
     <>

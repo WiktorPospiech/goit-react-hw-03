@@ -5,6 +5,7 @@ import { nanoid } from "nanoid";
 
 const FeedbackSchema = Yup.object().shape({
   name: Yup.string()
+    .matches(/^[A-Za-z]+$/, "Imię może zawierać tylko litery")
     .min(2, "Too Short!")
     .max(50, "Too Long!")
     .required("Required"),

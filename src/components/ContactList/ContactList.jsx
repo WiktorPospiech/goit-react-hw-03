@@ -20,5 +20,5 @@ export default function ContactList({ contacts, deleteContacts }) {
 
 ContactList.propTypes = {
   contacts: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  deleteContacts: PropTypes.func.isRequired,
 };

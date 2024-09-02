@@ -20,6 +20,6 @@ export default function ContactItem({ contact, deleteContacts }) {
 }
 
 ContactItem.propTypes = {
-  contacts: PropTypes.object.isRequired,
+  contact: PropTypes.object.isRequired,
   deleteContacts: PropTypes.func.isRequired,
 };
