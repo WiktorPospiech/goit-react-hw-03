@@ -6,41 +6,50 @@ import FeedbackForm from "./components/Form/Form";
 import { useState, useEffect } from "react";
 import allContacts from "./components/Contact/allContacts.json";
 
-const addedContact = [];
-const EveryContact = [...allContacts];
-const searchingContact = Object.assign(addedContact, EveryContact);
-// const savedContact = JSON.parse(window.localStorage.getItem("saved-contact"));
+// const addedContact = [];
+// const EveryContact = [...allContacts];
+// const searchingContact = Object.assign(addedContact, EveryContact);
+// // const savedContact = JSON.parse(window.localStorage.getItem("saved-contact"));
 
 function App() {
-  const [inputValue, setInputValue] = useState(searchingContact);
-  console.log(inputValue);
+  const [allContactsState, setAllContactsState] = useState(() => {
+    const savedContacts = JSON.parse(
+      window.localStorage.getItem("saved-contact")
+    );
+    return savedContacts || allContacts;
+  });
+
+  const [displayedContacts, setDisplayedContacts] = useState(allContactsState);
+  // const [inputValue, setInputValue] = useState(searchingContact);
+  // console.log(inputValue);
 
   //funkcja, która zostanie przekazana do Formularza//
   const handleSubmit = (values, actions) => {
     console.log(values);
-    setInputValue((prevState) => [...prevState, values]);
-    addedContact.push(values);
-    console.log(EveryContact);
-    console.log(...searchingContact);
+    const updatedContacts = [...allContactsState, values];
+    setAllContactsState(updatedContacts);
+    setDisplayedContacts(updatedContacts);
     actions.resetForm();
   };
 
   //funkcja, która zostanie przekazana do SearchBox oraz ContactList//
   const handleChange = (evt) => {
     const searchTerm = evt.target.value.toLowerCase();
-    const filteredContacts = searchingContact.filter((contact) =>
+    const filteredContacts = allContactsState.filter((contact) =>
       contact.name.toLowerCase().includes(searchTerm)
     );
-    setInputValue(filteredContacts);
+    setDisplayedContacts(filteredContacts);
   };
 
   //funkcja do usuwania//
 
   const deleteContacts = (id) => {
-    console.log("usuwam");
-    setInputValue((prev) => prev.filter((contact) => contact.id !== id));
+    const updatedContacts = allContactsState.filter(
+      (contact) => contact.id !== id
+    );
+    setAllContactsState(updatedContacts);
+    setDisplayedContacts(updatedContacts);
   };
-
   // const handleDelete = (id) => {
   //   console.log("usuwam");
   //   const array2 = searchingContact.filter((contact) => contact.id !== id);
@@ -76,19 +85,25 @@ function App() {
   //   };
   // };
   useEffect(() => {
-    window.localStorage.setItem("saved-contact", JSON.stringify(inputValue));
-  }, [inputValue]);
+    window.localStorage.setItem(
+      "saved-contact",
+      JSON.stringify(allContactsState)
+    );
+  }, [allContactsState]);
 
   return (
     <>
       <h1>Phonebook</h1>
-      <FeedbackForm onSubmit={handleSubmit} key={inputValue.id} />
+      <FeedbackForm onSubmit={handleSubmit} key={allContactsState.id} />
       <SearchBox
-        key={allContacts.id}
-        value={inputValue}
+        // key={allContacts.id}
+        // value={inputValue}
         onUpdate={handleChange}
       />
-      <ContactList contacts={inputValue} deleteContacts={deleteContacts} />
+      <ContactList
+        contacts={displayedContacts}
+        deleteContacts={deleteContacts}
+      />
     </>
   );
 }
